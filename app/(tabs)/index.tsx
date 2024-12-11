@@ -1,6 +1,8 @@
-import { AntDesign, FontAwesome } from "@expo/vector-icons";
-import { useRouter } from "expo-router";
-import React from "react";
+import { Products, TrendingProducts, artisans } from '@/data/productData';
+import { useUserStore } from '@/store/userStrore';
+import { AntDesign, FontAwesome } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
+import React from 'react';
 import {
   Image,
   ScrollView,
@@ -9,20 +11,35 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-} from "react-native";
+} from 'react-native';
 
 const HomePage = () => {
   const router = useRouter();
+  const productId = useUserStore((state) => state.productId);
+  const setProductId = useUserStore((state) => state.setProductId);
+  const openProductsPage = (index: number) => {
+    setProductId(index);
+    router.push('/Search/ProductDetailPage');
+  };
+  const openTrendingProductsPage = (index: number) => {
+    setProductId(index);
+    router.push('/Search/TrendingProductDetails');
+  };
+  const openArtisianDetailsPage = (index: number) => {
+    setProductId(index);
+    router.push('/Search/ArtisianDetailsPage');
+  };
+
   return (
     <View style={styles.container}>
       {/* Sticky Header */}
       <View style={styles.header}>
         <TouchableOpacity>
-          <AntDesign name="menu-fold" size={24} color="black" />
+          <AntDesign name='menu-fold' size={24} color='black' />
         </TouchableOpacity>
         <Text style={styles.brandName}>ARTISTHAN</Text>
         <Image
-          source={{ uri: "https://via.placeholder.com/40" }} // Replace with a profile image
+          source={{ uri: 'https://via.placeholder.com/40' }} // Replace with a profile image
           style={styles.profileImage}
         />
       </View>
@@ -32,63 +49,36 @@ const HomePage = () => {
         {/* Search Bar */}
         <View style={styles.searchBar}>
           <TouchableOpacity>
-            <FontAwesome name="search" size={20} color="gray" />
+            <FontAwesome name='search' size={20} color='gray' />
           </TouchableOpacity>
           <TextInput
-            placeholder="Search any Product.."
+            placeholder='Search any Product..'
             style={styles.searchInput}
           />
-          <TouchableOpacity onPress={() => router.replace("/Search/ScanNFind")}>
-            <FontAwesome name="camera" size={20} color="gray" />
+          <TouchableOpacity>
+            <FontAwesome name='camera' size={20} color='gray' />
           </TouchableOpacity>
         </View>
 
-        {/* Featured Products */}
-        <Text style={styles.sectionTitle}>Featured Products</Text>
+        {/*Artisian */}
+        <Text style={styles.sectionTitle}>Artisian</Text>
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
           style={styles.featuredProducts}
         >
-          {[
-            {
-              name: "Handicrafts",
-              image:
-                "https://tse3.mm.bing.net/th?id=OIP.Q1ZqCSsxzRiboTVZu10p5wHaE8&pid=Api&P=0&h=180", // Example URL
-            },
-            {
-              name: "Jewellery",
-              image:
-                "https://upload.wikimedia.org/wikipedia/commons/d/da/Gold-jewellery-jewel-henry-designs-terabass.jpg", // Example URL
-            },
-            {
-              name: "clothings",
-              image:
-                "https://tse4.mm.bing.net/th?id=OIP.HRwXNobzmx8BvEDehfsVNwHaE8&pid=Api&P=0&h=180", // Example URL
-            },
-            {
-              name: "Paintings",
-              image:
-                "http://1.bp.blogspot.com/-tQzkfgKTuc8/Ua0czIExNtI/AAAAAAAAAoc/bfNmSUN9NC4/s1600/000_3666.JPG", // Example URL
-            },
-            {
-              name: "spritual offering",
-              image:
-                "https://tse1.mm.bing.net/th?id=OIP.VXSKb-iK-EC4W98Fxg6L2AHaEJ&pid=Api&P=0&h=180", // Example URL
-            },
-            {
-              name: "wedding essentials",
-              image:
-                "https://c8.alamy.com/comp/JRRG1M/wedding-day-essentials-JRRG1M.jpg", // Example URL
-            },
-          ].map((item, index) => (
-            <View key={index} style={styles.categoryItem}>
+          {artisans.map((item, index) => (
+            <TouchableOpacity
+              key={index}
+              style={styles.categoryItem}
+              onPress={() => openArtisianDetailsPage(index)}
+            >
               <Image
-                source={{ uri: item.image }} // Replace with category image
+                source={{ uri: item.image }}
                 style={styles.categoryImage}
               />
               <Text style={styles.categoryText}>{item.name}</Text>
-            </View>
+            </TouchableOpacity>
           ))}
         </ScrollView>
 
@@ -96,7 +86,7 @@ const HomePage = () => {
         <View style={styles.banner}>
           <Image
             source={{
-              uri: "https://s7d1.scene7.com/is/image/canon/5-home-decor-items-you-didnt-know-you-could-make-with-paper?wid=1000&hei=667&fmt=webp-alpha",
+              uri: 'https://s7d1.scene7.com/is/image/canon/5-home-decor-items-you-didnt-know-you-could-make-with-paper?wid=1000&hei=667&fmt=webp-alpha',
             }} // Replace with banner image
             style={styles.bannerImage}
           />
@@ -121,28 +111,19 @@ const HomePage = () => {
             showsHorizontalScrollIndicator={false}
             style={styles.dealProducts}
           >
-            {[
-              {
-                name: "Royal Rajasthani Necklace",
-                price: "₹500000",
-                image:
-                  "https://assets5.mirraw.com/images/66043/507641bb18099aa0c3cca1f6acf2cdc7_zoom.jpg?1364577730",
-              },
-              {
-                name: "Kanjivaram Saree",
-                price: "₹2499",
-                image:
-                  "https://sp.yimg.com/ib/th?id=OIP.vFj8FO6x97B6rakaDfgYHgHaDS&pid=Api&w=148&h=148&c=7&dpr=2&rs=1",
-              },
-            ].map((item, index) => (
-              <View key={index} style={styles.productCard}>
+            {Products.map((item, index) => (
+              <TouchableOpacity
+                key={index}
+                style={styles.productCard}
+                onPress={() => openProductsPage(index)}
+              >
                 <Image
                   source={{ uri: item.image }}
                   style={styles.productImage}
                 />
                 <Text style={styles.productName}>{item.name}</Text>
                 <Text style={styles.productPrice}>{item.price}</Text>
-              </View>
+              </TouchableOpacity>
             ))}
           </ScrollView>
         </View>
@@ -160,39 +141,24 @@ const HomePage = () => {
             showsHorizontalScrollIndicator={false}
             style={styles.trendingProducts}
           >
-            {[
-              {
-                name: "Jwellery",
-                price: "₹650",
-                oldPrice: "₹1599",
-                image: "https://via.placeholder.com/120",
-              },
-              {
-                name: "Labbin White Sneakers",
-                price: "₹650",
-                oldPrice: "₹1250",
-                image: "https://via.placeholder.com/120",
-              },
-              {
-                name: "Mammoth Handicrafts",
-                price: "₹750",
-                oldPrice: "₹1999",
-                image: "https://via.placeholder.com/120",
-              },
-            ].map((item, index) => (
-              <View key={index} style={styles.productCard}>
+            {TrendingProducts.map((item, index) => (
+              <TouchableOpacity
+                key={index}
+                style={styles.productCard}
+                onPress={() => openTrendingProductsPage(index)}
+              >
                 <Image
                   source={{ uri: item.image }}
                   style={styles.productImage}
                 />
                 <Text style={styles.productName}>{item.name}</Text>
                 <Text style={styles.productPrice}>
-                  {item.price}{" "}
+                  {item.price}{' '}
                   <Text
                     style={styles.oldPrice}
                   >{`(${item.oldPrice} off)`}</Text>
                 </Text>
-              </View>
+              </TouchableOpacity>
             ))}
           </ScrollView>
         </View>
@@ -217,7 +183,7 @@ const HomePage = () => {
         {/* Hot Deals */}
         <View style={styles.hotDeals}>
           <Image
-            source={{ uri: "https://via.placeholder.com/300x150" }} // Replace with Hot Deals Image
+            source={{ uri: 'https://tse3.mm.bing.net/th?id=OIP.x5I2H2ZxyWcsHGmpxn9jFwHaE8&pid=Api&P=0&h=180' }} // Replace with Hot Deals Image
             style={styles.hotDealsImage}
           />
         </View>
@@ -229,26 +195,26 @@ const HomePage = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     padding: 2,
   },
   header: {
-    position: "absolute",
+    position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
-    backgroundColor: "#FEEFB3",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    backgroundColor: '#FEEFB3',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     padding: 10,
     zIndex: 1, // Ensures the header stays on top of other content
     elevation: 5, // Adds shadow on Android
   },
   brandName: {
     fontSize: 20,
-    fontWeight: "bold",
-    color: "#D23A42",
+    fontWeight: 'bold',
+    color: '#D23A42',
   },
   profileImage: {
     width: 40,
@@ -260,9 +226,9 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   searchBar: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#F4F4F4",
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#F4F4F4',
     margin: 10,
     borderRadius: 8,
     paddingHorizontal: 10,
@@ -274,17 +240,17 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 18,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     marginHorizontal: 10,
     marginTop: 10,
   },
   featuredProducts: {
-    flexDirection: "row",
+    flexDirection: 'row',
     marginHorizontal: 10,
     marginTop: 5,
   },
   categoryItem: {
-    alignItems: "center",
+    alignItems: 'center',
     marginRight: 10,
   },
   categoryImage: {
@@ -299,71 +265,73 @@ const styles = StyleSheet.create({
   banner: {
     marginHorizontal: 10,
     marginTop: 10,
-    alignItems: "center",
-    backgroundColor: "#FFF5E3",
+    alignItems: 'center',
+    backgroundColor: '#FFF5E3',
     padding: 10,
     borderRadius: 10,
   },
   bannerImage: {
-    width: "100%",
+    width: '100%',
     height: 150,
     borderRadius: 10,
   },
   bannerText: {
     fontSize: 20,
-    fontWeight: "bold",
-    color: "#E63946",
+    fontWeight: 'bold',
+    color: '#E63946',
     marginTop: 10,
   },
   bannerSubText: {
-    color: "#666",
+    color: '#666',
   },
   shopNowButton: {
-    backgroundColor: "#E63946",
+    backgroundColor: '#E63946',
     paddingVertical: 5,
     paddingHorizontal: 15,
     borderRadius: 5,
     marginTop: 10,
   },
   shopNowText: {
-    color: "#fff",
-    fontWeight: "bold",
+    color: '#fff',
+    fontWeight: 'bold',
   },
   dealSection: {
     marginHorizontal: 10,
     marginTop: 10,
   },
   dealHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   dealTitle: {
     fontSize: 18,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   timer: {
-    color: "#E63946",
+    color: '#E63946',
   },
   viewAll: {
-    color: "#007BFF",
-    fontWeight: "bold",
+    color: '#007BFF',
+    fontWeight: 'bold',
   },
   dealProducts: {
-    flexDirection: "row",
+    flexDirection: 'row',
     marginTop: 10,
   },
   productCard: {
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     borderRadius: 10,
     marginRight: 10,
+    marginBottom: 10,
     padding: 10,
-    alignItems: "center",
-    shadowColor: "#000",
+    alignItems: 'center',
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.3,
     shadowRadius: 2,
     elevation: 3,
+
   },
   productImage: {
     width: 200,
@@ -372,17 +340,17 @@ const styles = StyleSheet.create({
   },
   productName: {
     fontSize: 14,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     marginTop: 5,
-    textAlign: "center",
+    textAlign: 'center',
   },
   productPrice: {
-    color: "#E63946",
+    color: '#E63946',
     marginTop: 5,
   },
   oldPrice: {
-    color: "#999",
-    textDecorationLine: "line-through",
+    color: '#999',
+    textDecorationLine: 'line-through',
     fontSize: 12,
   },
   trendingSection: {
@@ -390,38 +358,38 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   trendingHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   trendingTitle: {
     fontSize: 18,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   trendingDate: {
     fontSize: 12,
-    color: "#888",
+    color: '#888',
   },
   trendingProducts: {
-    flexDirection: "row",
+    flexDirection: 'row',
     marginTop: 10,
   },
   saleBanner: {
     marginHorizontal: 10,
-    backgroundColor: "#FFF5E3",
+    backgroundColor: '#FFF5E3',
     padding: 15,
     borderRadius: 10,
-    alignItems: "center",
+    alignItems: 'center',
     marginTop: 20,
   },
   saleText: {
     fontSize: 24,
-    fontWeight: "bold",
-    color: "#E63946",
+    fontWeight: 'bold',
+    color: '#E63946',
   },
   saleSubText: {
     fontSize: 18,
-    color: "#333",
+    color: '#333',
     marginVertical: 10,
   },
   newArrivals: {
@@ -430,18 +398,18 @@ const styles = StyleSheet.create({
   },
   newArrivalsTitle: {
     fontSize: 18,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   newArrivalsDesc: {
     fontSize: 14,
-    color: "#666",
+    color: '#666',
   },
   hotDeals: {
     marginHorizontal: 10,
     marginTop: 20,
   },
   hotDealsImage: {
-    width: "100%",
+    width: '100%',
     height: 200,
     borderRadius: 10,
   },

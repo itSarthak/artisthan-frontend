@@ -1,10 +1,11 @@
 import { useUserStore } from "@/store/userStrore";
-import { theme } from "@/theme";
 import { useRouter } from "expo-router";
 import { navigate } from "expo-router/build/global-state/routing";
 import React, { useState } from "react";
 import {
-  View,
+  Alert,
+  ScrollView,
+  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
@@ -12,7 +13,6 @@ import {
   StyleSheet,
   ScrollView,
 } from "react-native";
-import { Picker } from "@react-native-picker/picker";
 
 const Registration = () => {
   const [name, setName] = useState("");
@@ -20,8 +20,6 @@ const Registration = () => {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
-  // const [partOfIndia, setPartOfIndia] = useState("north");
-  // const [religion, setReligion] = useState("hindu");
   const router = useRouter();
   const login = useUserStore((state) => state.login);
   const userRegion = useUserStore((state) => state.userRegion);
@@ -33,17 +31,18 @@ const Registration = () => {
     // const userRegion = useUserStore((state) => state.userRegion);
     // const userReligion = useUserStore((state) => state.userReligion);
     if (!name || !username || !email || !phone || !password) {
-      Alert.alert("Error", "All fields are required!");
+      Alert.alert('Error', 'All fields are required!');
       return;
     }
 
     const userData = { name, username, email, phone, password };
-    console.log("User Registered:", userData);
+    console.log('User Registered:', userData);
 
-    Alert.alert("Success", "Registration completed!");
+    Alert.alert('Success', 'Registration completed!');
 
     login();
     // Navigate to login or home screen
+    router.replace("/SelectInterests");
   };
 
   return (
@@ -57,38 +56,38 @@ const Registration = () => {
 
         <TextInput
           style={styles.input}
-          placeholder="Full Name"
-          placeholderTextColor="#aaa"
+          placeholder='Full Name'
+          placeholderTextColor='#aaa'
           value={name}
           onChangeText={setName}
         />
         <TextInput
           style={styles.input}
-          placeholder="Username"
-          placeholderTextColor="#aaa"
+          placeholder='Username'
+          placeholderTextColor='#aaa'
           value={username}
           onChangeText={setUsername}
         />
         <TextInput
           style={styles.input}
-          placeholder="Email Address"
-          placeholderTextColor="#aaa"
-          keyboardType="email-address"
+          placeholder='Email Address'
+          placeholderTextColor='#aaa'
+          keyboardType='email-address'
           value={email}
           onChangeText={setEmail}
         />
         <TextInput
           style={styles.input}
-          placeholder="Phone Number"
-          placeholderTextColor="#aaa"
-          keyboardType="phone-pad"
+          placeholder='Phone Number'
+          placeholderTextColor='#aaa'
+          keyboardType='phone-pad'
           value={phone}
           onChangeText={setPhone}
         />
         <TextInput
           style={styles.input}
-          placeholder="Password"
-          placeholderTextColor="#aaa"
+          placeholder='Password'
+          placeholderTextColor='#aaa'
           secureTextEntry
           value={password}
           onChangeText={setPassword}
@@ -131,7 +130,7 @@ const Registration = () => {
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => Alert.alert("Navigating to login screen...")}
+          onPress={() => Alert.alert('Navigating to login screen...')}
         >
           <Text style={styles.loginLink}>Already have an account? Log In</Text>
         </TouchableOpacity>
@@ -143,12 +142,12 @@ const Registration = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: theme.colors.backgroundColor,
+    backgroundColor: "#fff1c2",
     padding: 20,
-    justifyContent: "center",
+    justifyContent: 'center',
   },
   title: {
-    fontSize: 30,
+    fontSize: 28,
     fontWeight: "bold",
     color: "#333",
     textAlign: "center",
@@ -156,19 +155,19 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: 16,
-    color: "#666",
-    textAlign: "center",
+    color: '#666',
+    textAlign: 'center',
     marginBottom: 30,
   },
   input: {
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     borderWidth: 1,
-    borderColor: "#ddd",
+    borderColor: '#ddd',
     borderRadius: 8,
     padding: 12,
     fontSize: 16,
     marginBottom: 15,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 3.84,
@@ -196,23 +195,23 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   registerButton: {
-    backgroundColor: "#E60B15",
+    backgroundColor: '#E60B15',
     paddingVertical: 14,
     borderRadius: 8,
-    alignItems: "center",
+    alignItems: 'center',
     marginBottom: 15,
   },
   registerButtonText: {
-    color: "#fff",
+    color: '#fff',
     fontSize: 18,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   loginLink: {
     fontSize: 16,
-    color: "#0066cc",
-    textAlign: "center",
+    color: '#0066cc',
+    textAlign: 'center',
     marginTop: 10,
-    textDecorationLine: "underline",
+    textDecorationLine: 'underline',
   },
 });
 

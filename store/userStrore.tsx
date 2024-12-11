@@ -1,16 +1,10 @@
-import { create } from "zustand";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { persist, createJSONStorage } from "zustand/middleware";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { create } from 'zustand';
+import { createJSONStorage, persist } from 'zustand/middleware';
 
 type UserStore = {
   hasFinishedOnboarding: boolean;
   isLoggedIn: boolean;
-  userRegion: string;
-  userReligion: string;
-  productId: number;
-  setProductId: (id: number) => void;
-  setUserRegion: (region: string) => void;
-  setUserReligion: (religion: string) => void;
   toggleHadOnboarding: () => void;
   login: () => void;
   logout: () => void;
@@ -33,23 +27,9 @@ export const useUserStore = create(
       login: () => set((state) => ({ ...state, isLoggedIn: true })),
 
       logout: () => set((state) => ({ ...state, isLoggedIn: false })),
-
-      setUserRegion: (region) =>
-        set((state) => ({
-          ...state,
-          userRegion: region,
-        })),
-
-      setUserReligion: (religion) =>
-        set((state) => ({
-          ...state,
-          userReligion: religion,
-        })),
-      productId: 0,
-      setProductId: (id) => set({ productId: id }),
     }),
     {
-      name: "user-store", // Name of the persisted storage
+      name: "artisthan-user-store",
       storage: createJSONStorage(() => AsyncStorage),
     }
   )
