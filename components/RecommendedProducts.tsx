@@ -6,9 +6,13 @@ import {
   ScrollView,
   StyleSheet,
 } from "react-native";
-import React from "react";
 
+import React from "react";
+import { regionData } from "../data/RecommenderSystemData";
+import { useUserStore } from "@/store/userStrore";
 const RecommendedProducts = () => {
+  const userRegion = useUserStore((state) => state.userRegion);
+
   return (
     <View style={styles.dealSection}>
       <View style={styles.dealHeader}>
@@ -23,26 +27,18 @@ const RecommendedProducts = () => {
         showsHorizontalScrollIndicator={false}
         style={styles.dealProducts}
       >
-        {[
-          {
-            name: "Royal Rajasthani Necklace",
-            price: "₹500000",
-            image:
-              "https://assets5.mirraw.com/images/66043/507641bb18099aa0c3cca1f6acf2cdc7_zoom.jpg?1364577730",
-          },
-          {
-            name: "Kanjivaram Saree",
-            price: "₹2499",
-            image:
-              "https://sp.yimg.com/ib/th?id=OIP.vFj8FO6x97B6rakaDfgYHgHaDS&pid=Api&w=148&h=148&c=7&dpr=2&rs=1",
-          },
-        ].map((item, index) => (
-          <View key={index} style={styles.productCard}>
-            <Image source={{ uri: item.image }} style={styles.productImage} />
-            <Text style={styles.productName}>{item.name}</Text>
-            <Text style={styles.productPrice}>{item.price}</Text>
-          </View>
-        ))}
+        {regionData
+          .filter((item) => item.region === userRegion)[0]
+          .products.map((item, index) => (
+            <View key={index} style={styles.productCard}>
+              <Image
+                source={{ uri: item.imageUrl }}
+                style={styles.productImage}
+              />
+              <Text style={styles.productName}>{item.name}</Text>
+              <Text style={styles.productPrice}>{item.price}</Text>
+            </View>
+          ))}
       </ScrollView>
     </View>
   );

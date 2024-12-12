@@ -13,7 +13,7 @@ export interface Region {
 
 export const regionData: Region[] = [
   {
-    region: "North India",
+    region: "north",
     products: [
       {
         name: "Brass Diyas",
@@ -46,7 +46,7 @@ export const regionData: Region[] = [
     ],
   },
   {
-    region: "South India",
+    region: "south",
     products: [
       {
         name: "Clay Pots",
@@ -79,7 +79,7 @@ export const regionData: Region[] = [
     ],
   },
   {
-    region: "East India",
+    region: "east",
     products: [
       {
         name: "Durga Idols",
@@ -112,7 +112,7 @@ export const regionData: Region[] = [
     ],
   },
   {
-    region: "West India",
+    region: "west",
     products: [
       {
         name: "Chaniya Choli",

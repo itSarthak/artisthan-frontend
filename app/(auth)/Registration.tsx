@@ -43,6 +43,7 @@ const Registration = () => {
     Alert.alert("Success", "Registration completed!");
 
     login();
+    router.replace("/");
     // Navigate to login or home screen
   };
 

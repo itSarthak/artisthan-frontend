@@ -1,3 +1,5 @@
+import RecommendedProducts from "@/components/RecommendedProducts";
+import TrendingProducts from "@/components/TrendingProducts";
 import { AntDesign, FontAwesome } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import React from "react";
@@ -108,94 +110,10 @@ const HomePage = () => {
         </View>
 
         {/* Recommended Products */}
-        <View style={styles.dealSection}>
-          <View style={styles.dealHeader}>
-            <Text style={styles.dealTitle}>Recommended Products</Text>
-
-            <TouchableOpacity>
-              <Text style={styles.viewAll}>View all</Text>
-            </TouchableOpacity>
-          </View>
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            style={styles.dealProducts}
-          >
-            {[
-              {
-                name: "Royal Rajasthani Necklace",
-                price: "₹500000",
-                image:
-                  "https://assets5.mirraw.com/images/66043/507641bb18099aa0c3cca1f6acf2cdc7_zoom.jpg?1364577730",
-              },
-              {
-                name: "Kanjivaram Saree",
-                price: "₹2499",
-                image:
-                  "https://sp.yimg.com/ib/th?id=OIP.vFj8FO6x97B6rakaDfgYHgHaDS&pid=Api&w=148&h=148&c=7&dpr=2&rs=1",
-              },
-            ].map((item, index) => (
-              <View key={index} style={styles.productCard}>
-                <Image
-                  source={{ uri: item.image }}
-                  style={styles.productImage}
-                />
-                <Text style={styles.productName}>{item.name}</Text>
-                <Text style={styles.productPrice}>{item.price}</Text>
-              </View>
-            ))}
-          </ScrollView>
-        </View>
+        <RecommendedProducts />
 
         {/* Trending Products */}
-        <View style={styles.trendingSection}>
-          <View style={styles.trendingHeader}>
-            <Text style={styles.trendingTitle}>Trending Products</Text>
-            <TouchableOpacity>
-              <Text style={styles.viewAll}>View all</Text>
-            </TouchableOpacity>
-          </View>
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            style={styles.trendingProducts}
-          >
-            {[
-              {
-                name: "Jwellery",
-                price: "₹650",
-                oldPrice: "₹1599",
-                image: "https://via.placeholder.com/120",
-              },
-              {
-                name: "Labbin White Sneakers",
-                price: "₹650",
-                oldPrice: "₹1250",
-                image: "https://via.placeholder.com/120",
-              },
-              {
-                name: "Mammoth Handicrafts",
-                price: "₹750",
-                oldPrice: "₹1999",
-                image: "https://via.placeholder.com/120",
-              },
-            ].map((item, index) => (
-              <View key={index} style={styles.productCard}>
-                <Image
-                  source={{ uri: item.image }}
-                  style={styles.productImage}
-                />
-                <Text style={styles.productName}>{item.name}</Text>
-                <Text style={styles.productPrice}>
-                  {item.price}{" "}
-                  <Text
-                    style={styles.oldPrice}
-                  >{`(${item.oldPrice} off)`}</Text>
-                </Text>
-              </View>
-            ))}
-          </ScrollView>
-        </View>
+        <TrendingProducts />
 
         {/* Festival Big Sale */}
         <View style={styles.saleBanner}>
@@ -282,6 +200,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginHorizontal: 10,
     marginTop: 5,
+    flexWrap: "wrap",
   },
   categoryItem: {
     alignItems: "center",
@@ -293,6 +212,9 @@ const styles = StyleSheet.create({
     borderRadius: 30,
   },
   categoryText: {
+    flexWrap: "wrap",
+    flexDirection: "row",
+    maxWidth: 66,
     marginTop: 5,
     fontSize: 12,
   },
